@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Inpatients{% endblock %}
+{% block sidebar_admission_list %}active{% endblock %}
+{% block body_header %}View Inpatients{% endblock %}
+{% block body %}
+    <p class="lead">View all Inpatients.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=patient">Patient</a></th>
+            <th><a href="./?sort=description">Reason</a></th>
+            <th><a href="./?sort=hospital">Hospital</a></th>
+            <th><a href="./?sort=time">Time</a></th>
+            <th><a href="./?sort=time">Date</a></th>
+            <th><a href="./?sort=status">Status</a></th>
+        </thead>
+        {% for admission in query %}
+            <tr>
+                <td>{{ admission.patient.account.profile }}</td>
+                <td>{{ admission.reason }}</td>
+                <td>{{ admission.hospital.name }}</td>
+                <td>{{ admission.time }}
+                <td>{{ admission.date }}</td>
+                <td>{% if admission.active %}Admitted{% else %}Discharged{% endif %}</td>
+                <td>
+                {% if admission.active %}
+                    {% if user.account.role == 30 %}
+                            <a class="btn btn-danger" href="/admission/discharge/?pk={{ admission.pk }}" role="button">Discharge</a>
+                        {% endif %}
+                {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

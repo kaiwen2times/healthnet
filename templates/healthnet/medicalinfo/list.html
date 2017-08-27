@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Medical Info{% endblock %}
+{% block sidebar_medicalinfo_list %}active{% endblock %}
+{% block body_header %}View Medical Info{% endblock %}
+{% block body %}
+    <p class="lead">View all patients' medical info.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=patient">Patient</a></th>
+            <th><a href="./?sort=bloodType">Blood Type</a></th>
+            <th><a href="./?sort=allergy">Allergy</a></th>
+        </thead>
+        {% for medicalinfo in query %}
+            <tr>
+                <td>{{ medicalinfo.patient.account.profile }}</td>
+                <td>{{ medicalinfo.bloodType }}</td>
+                <td>{{ medicalinfo.allergy }}</td>
+                <td>
+                    {% if not user.account.role == 10 %}
+                        <a class="btn btn-warning" href="/medicalinfo/update/?pk={{ medicalinfo.pk }}" role="button">Update</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

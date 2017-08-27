@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Users{% endblock %}
+{% block sidebar_admin_users %}active{% endblock %}
+{% block body_header %}View Users{% endblock %}
+{% block body %}
+    <p class="lead">View all the users registered on HealthNet.</p>
+    <table class="table table-striped table-condensed">
+        <thead>
+            <th><a href="./?sort=username">Username</a></th>
+            <th><a href="./?sort=firstname">First name</a></th>
+            <th><a href="./?sort=lastname">Last name</a></th>
+            <th><a href="./?sort=role">Role</a></th>
+            <th>Options</th>
+        </thead>
+        {% for account in query %}
+            <tr>
+                <td>{{ account.user.username }}</td>
+                <td>{{ account.profile.firstname }}</td>
+                <td>{{ account.profile.lastname }}</td>
+                <form action="./" method="post">{% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ account.pk }}">
+                    <td>
+                        <select class="form-control" name="role">
+                            <option value="10" {% if account.role == 10 %}selected="selected"{% endif %}>Patient</option>
+                            <option value="20" {% if account.role == 20 %}selected="selected"{% endif %}>Nurse</option>
+                            <option value="30" {% if account.role == 30 %}selected="selected"{% endif %}>Doctor</option>
+                            <option value="40" {% if account.role == 40 %}selected="selected"{% endif %}>Admin</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="btn btn-primary" type="submit" value="Save"/>
+                    </td>
+                </form>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

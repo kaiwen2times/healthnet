@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load app_filters %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Healthnet {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/flatly-bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-datetimepicker.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/dashboard.css"/>
+    <script src="{{STATIC_URL}}js/jquery.min.js"></script>
+    <script src="{{STATIC_URL}}js/moment.min.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+    <script src="{{STATIC_URL}}js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% block brand_link %}/healthnet/profile/{% endblock %}">HealthNet</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a {% if user|isAuthenticated %}href="/profile/">Signed in as {{ user.username }}{% else %}>Not signed in{% endif %}</a>
+                    </li>
+                    <li>
+                        {% block nav_button %}<a href="/logout/">Logout</a>{% endblock %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            {% if user|isAuthenticated %}
+                <div class="well col-sm-3 col-md-2">
+                        <ul class="nav nav-pills nav-stacked">
+                            {% if user.account.role >= 0 %}
+                                <li class="{% block sidebar_profile %}{% endblock %}"><a href="/profile/">Overview</a></li>
+                                <li class="{% block sidebar_profile_password %}{% endblock %}"><a href="/profile/password/">Change Password</a></li>
+                                <li class="{% block sidebar_profile_update %}{% endblock %}"><a href="/profile/update/">Update Profile</a></li>
+                                <li class="{% block sidebar_message %}{% endblock %}"><a href="/message/list/">Messages</a></li>
+                            {% endif %}
+                            {% if user.account.role = 10 %}
+                                <li class="{% block sidebar_medicalinfo_patient %}{% endblock %}"><a href="/medicalinfo/patient/">Medical Info</a></li>
+                            {% endif %}
+                            {% if user.account.role >= 10 and user.account.role < 40 %}
+                                <li class="{% block sidebar_appointment_create %}{% endblock %}"><a href="/appointment/create/">Create Appointment</a></li>
+                                <li class="{% block sidebar_appointment_list %}{% endblock %}"><a href="/appointment/list/">View Appointments</a></li>
+                                <li class="{% block sidebar_medtest_list %}{% endblock %}"><a href="/medtest/list">View Medical Tests</a> </li>
+                                <li class="{% block sidebar_prescription_list %}{% endblock %}"><a href="/prescription/list/">View Prescriptions</a></li>
+                            {% endif %}
+                            {% if user.account.role >= 20 and user.account.role < 40 %}
+                                <li class="{% block sidebar_medicalInfo_list %}{% endblock %}"><a href="/medicalinfo/list/">Medical Info</a></li>
+                                <li class="{% block sidebar_admission_create %}{% endblock %}"><a href="/admission/admit/">Admit Patient</a></li>
+                                <li class="{% block sidebar_admission_list %}{% endblock %}"><a href="/admission/list/">View Inpatients</a></li>
+                            {% endif %}
+                            {% if user.account.role == 30 %}
+                                <li class="{% block sidebar_medtest_upload %}{% endblock %}"><a href="/medtest/upload/">Upload Medical Test</a></li>
+                                <li class="{% block sidebar_prescription_create %}{% endblock %}"><a href="/prescription/create/">Add Prescriptions</a></li>
+                            {% endif %}
+                            {% if user.account.role == 40 %}
+                                <li class="{% block sidebar_admin_users %}{% endblock %}"><a href="/admin/users/">View Users</a></li>
+                                <li class="{% block sidebar_admin_activity %}{% endblock %}"><a href="/admin/activity/">View Activity</a></li>
+                                <li class="{% block sidebar_admin_statistic %}{% endblock %}"><a href="/admin/stats/">View System Statistics</a></li>
+                                <li class="{% block sidebar_admin_createemployee %}{% endblock %}"><a href="/admin/createemployee/">Create employee</a></li>
+                            {% endif %}
+                        </ul>
+                </div>
+                <div class="col-sm-9 col-md-10 main">
+            {% else %}
+                <div class="well well-sm col-sm-offset-3 col-sm-6">
+            {% endif %}
+                <h1 class="page-header">{% block body_header %}{% endblock %}</h1>
+                {% if alert_success %}
+                    <div class="alert alert-success" role="alert">{{ alert_success }}</div>
+                {% endif %}
+                {% if alert_danger %}
+                    <div class="alert alert-danger" role="alert">{{ alert_danger }}</div>
+                {% endif %}
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

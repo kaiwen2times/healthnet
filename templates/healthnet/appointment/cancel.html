@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}Cancel Appointment{% endblock %}
+{% block body_header %}Cancel Appointment{% endblock %}
+{% block body %}
+    {% if appointment.active %}
+        <p class="lead">Are you sure you want to cancel this appointment?</p>
+        <form action="./{% if form_action %}{{ form_action }}{% endif %}" method="post">{% csrf_token %}
+            <div class="col-sm-3">
+                <input class="btn btn-danger btn-block" type="submit" name="yes" value="Yes"/>
+                <input class="btn btn-success btn-block" type="submit" name="no" value="No"/>
+            </div>
+        </form>
+    {% else %}
+        <p class="lead">The requested appointment is no longer active.</p>
+        <div class="col-sm-3">
+            <a href="/appointment/list/" class="btn btn-primary btn-block" role="button">Return to appointment list</a>
+        </div>
+    {% endif %}
+{% endblock %}

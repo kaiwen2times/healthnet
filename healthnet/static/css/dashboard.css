@@ -1,0 +1,14 @@
+.navbar {
+    margin-bottom: 0px;
+}
+
+.main {
+    border-top: 3px solid #2c3e50;
+}
+
+@media (min-width: 768px) {
+    .main {
+        border-top: none;
+        border-left: 3px solid #2c3e50;
+    }
+}

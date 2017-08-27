@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}Overview{% endblock %}
+{% block sidebar_profile %}active{% endblock %}
+{% block body_header %}Welcome {{ user.account.profile.firstname }}{% endblock %}
+{% block body %}
+    <p class="lead">Your role is <strong>{{ user|getAccountRole }}</strong> and you're currently signed in under the email <strong>{{ user.username }}</strong>.</p>
+    <p class="lead">Navigate through the HealthNet system using the bar on the left-hand side of the browser.</p>
+{% endblock %}

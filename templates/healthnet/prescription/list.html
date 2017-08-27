@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Prescriptions{% endblock %}
+{% block sidebar_prescription_list %}active{% endblock %}
+{% block body_header %}View Prescriptions{% endblock %}
+{% block body %}
+    <p class="lead">View all Prescriptions.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=doctor">Doctor</a></th>
+            <th><a href="./?sort=patient">Patient</a></th>
+            <th><a href="./?sort=medication">Medication</a></th>
+            <th><a href="./?sort=strength">Strength</a></th>
+            <th><a href="./?sort=date">Date</a></th>
+            <th><a href="./?sort=refill">Number of Refill(s)</a></th>
+            <th><a href="./?sort=status">Status</a></th>
+            <th>Options</th>
+        </thead>
+        {% for prescription in query %}
+            <tr>
+                <td>{{ prescription.doctor.account.profile }}</td>
+                <td>{{ prescription.patient.account.profile }}</td>
+                <td>{{ prescription.medication }}</td>
+                <td>{{ prescription.strength }}</td>
+                <td>{{ prescription.date }}</td>
+                <td>{{ prescription.refill }} Refill(s)</td>
+                <td>{% if prescription.active %}Active{% else %}Deleted{% endif %}</td>
+                <td>
+                    {% if prescription.active %}
+                        {% if user.account.role == 30 %}
+                            <a class="btn btn-danger" href="/prescription/delete/?pk={{ prescription.pk }}" role="button">Delete</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

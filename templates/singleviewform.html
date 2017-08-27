@@ -1,0 +1,20 @@
+<!--
+    Add a single form to a page by including {\% include "singleform.html" \%}. (Remove escape characters \)
+
+    Make sure in the render call, you pass a form call 'form', and a button called 'form_button'.
+-->
+{% load app_filters %}
+{% for key in form %}
+<div class="container-fluid row">
+    <div class="col-sm-3 col-lg-2 panel panel-default">
+        <div class="panel-body">
+            <p align="right"><strong>{{ key }}:</strong></p>
+        </div>
+    </div>
+    <div class="col-sm-9 col-lg-10">
+        <div class="well well-sm">
+            {{ key }}
+        </div>
+    </div>
+</div>
+{% endfor %}

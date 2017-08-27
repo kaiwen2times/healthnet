@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Medical Tests{% endblock %}
+{% block sidebar_medtest_list %}active{% endblock %}
+{% block body_header %}View Medical Tests{% endblock %}
+{% block body %}
+    <p class="lead">View All Uploaded Medical Tests.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=doctor">Doctor</a></th>
+            <th><a href="./?sort=patient">Patient</a></th>
+            <th><a href="./?sort=name">Name</a></th>
+            <th><a href="./?sort=hospital">Hospital</a></th>
+            <th><a href="./?sort=time">Date</a></th>
+            <th><a href="./?sort=Status">Status</a></th>
+            <th>Options</th>
+        </thead>
+        {% for test in query %}
+            <tr>
+                <td>{{ test.doctor.account.profile }} </td>
+                <td>{{ test.patient.account.profile }}</td>
+                <td>{{ test.name }}</td>
+                <td>{{ test.hospital.name }}</td>
+                <td>{{ test.date }}</td>
+                <td>{% if test.completed %}Completed{%else %}In Progress{% endif %}</td>
+                <td>
+                    {% if user.account.role == 30 %}
+                        <a class="btn btn-primary" href="/medtest/display/?pk={{ test.pk }}" role="button">Display</a>
+                        <a class="btn btn-warning" href="/medtest/update/?pk={{ test.pk }}" role="button">Update</a>
+                    {% endif %}
+                    {% if not user.account.role == 30 %}
+                        <a class="btn btn-primary" href="/medtest/display/?pk={{ test.pk }}" role="button">Display</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

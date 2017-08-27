@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}Delete Prescription{% endblock %}
+{% block body_header %}Delete Prescription{% endblock %}
+{% block body %}
+    {% if prescription.active %}
+        <p class="lead">Are you sure you want to delete this prescription?</p>
+        <form action="./{% if form_action %}{{ form_action }}{% endif %}" method="post">{% csrf_token %}
+            <div class="col-sm-3">
+                <input class="btn btn-danger btn-block" type="submit" name="yes" value="Yes"/>
+                <input class="btn btn-success btn-block" type="submit" name="no" value="No"/>
+            </div>
+        </form>
+    {% else %}
+        <p class="lead">The requested prescription is no longer active.</p>
+        <div class="col-sm-3">
+            <a href="/prescription/list/" class="btn btn-primary btn-block" role="button">Return to prescription list</a>
+        </div>
+    {% endif %}
+{% endblock %}

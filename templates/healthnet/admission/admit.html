@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}Admit Patient{% endblock %}
+{% block sidebar_admission_create %}active{% endblock %}
+{% block body_header %}Admit Patient{% endblock %}
+{% block body %}
+    <p class="lead">Fill out this admission form and click '{{ form_button }}' when finished.</p>
+    {% include "singleform.html" %}
+{% endblock %}

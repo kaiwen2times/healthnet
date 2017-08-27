@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load app_filters %}
+{% block title %}View Appointments{% endblock %}
+{% block sidebar_appointment_list %}active{% endblock %}
+{% block body_header %}View Appointments{% endblock %}
+{% block body %}
+    <p class="lead">View all scheduled appointments.</p>
+    <table class="table table-striped">
+        <thead>
+            <th><a href="./?sort=doctor">Doctor</a></th>
+            <th><a href="./?sort=patient">Patient</a></th>
+            <th><a href="./?sort=description">Description</a></th>
+            <th><a href="./?sort=hospital">Hospital</a></th>
+            <th><a href="./?sort=time">Time</a></th>
+            <th><a href="./?sort=time">Date</a></th>
+            <th><a href="./?sort=status">Status</a></th>
+            <th>Options</th>
+        </thead>
+        {% for appointment in query %}
+            <tr>
+                <td>{{ appointment.doctor.account.profile }}</td>
+                <td>{{ appointment.patient.account.profile }}</td>
+                <td>{{ appointment.description }}</td>
+                <td>{{ appointment.hospital.name }}</td>
+                <td>{{ appointment.startTime }} until {{ appointment.endTime }}</td>
+                <td>{{ appointment.date }}</td>
+                <td>{% if appointment.active %}Active{% else %}Cancelled{% endif %}</td>
+                <td>
+                    {% if appointment.active %}
+                        <a class="btn btn-warning" href="/appointment/update/?pk={{ appointment.pk }}" role="button">Update</a>
+                        {% if not user.account.role == 20 %}
+                            <a class="btn btn-danger" href="/appointment/cancel/?pk={{ appointment.pk }}" role="button">Cancel</a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
