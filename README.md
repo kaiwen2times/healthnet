@@ -76,18 +76,11 @@ Unfortunately, things don't always work how we want them to. Here is a list of k
 - Unable to view system statistics in HealthNet
 
 
-TEST LIASON
-
-If you are having any issues testing our HealthNet application, please contact our Test Coordinator. His contact info is listed below.
-
-Arshdeep Khalsa
-ask7708@rit.edu
-
 
 DOCUMENTS
 
-Project Curry's Requirements Document
+Requirements Document
 - Requirements.pdf (located under the public_html/Release-R2Beta/cross-team-testing directory)
 
-Project Curry's Test Plan Document
+Test Plan Document
 - ProjectCurryTestPlanTracker.xls.xlsx (located under the public_html/Release-R2Beta/cross-team-testing directory)
